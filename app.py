@@ -150,7 +150,7 @@ PURE_PORTFOLIOS = {
 }
 
 # ==============================================================================
-# 3. FUNZIONI DI AGGREGAZIONE E ACQUISIZIONE DATI (DOWNLOAD PARALLELO API)
+# 3. FUNZIONI DI SCARICAMENTO E RENDERING
 # ==============================================================================
 @st.cache_data(show_spinner=False)
 def fetch_financial_data(all_tickers):
@@ -226,12 +226,9 @@ def render_portfolio_details(name, portfolio_dataframes):
         st.warning("Nessun componente di mercato disponibile per questo scenario.")
 
 # ==============================================================================
-# 4. CONTROLLI UTENTE ED ESECUZIONE LOGICA
+# 4. LOGICA DI ACQUISIZIONE DATI REATTIVA
 # ==============================================================================
-all_tickers = []
-for p in PURE_PORTFOLIOS.values():
-    all_tickers.extend(p)
-all_tickers = list(set(all_tickers))
+all_tickers = ["QQQ", "XLK", "XLY", "IEF", "SMH", "TLT", "SHY", "XLU", "XLP", "GLD", "DBC", "XLE", "TIP", "XLI", "XLF", "IWM", "EEM", "SLV", "DBB", "USO", "UNG", "XLB", "XLV", "IBIT", "IB1T.DE", "VWCE.DE", "EGLN", "SPFS.DE", "WNUC.DE", "CEBL.DE"]
 
 if st.button("🔄 AGGIORNA TERMINALE DI MERCATO", use_container_width=True):
     st.cache_data.clear()
@@ -242,7 +239,3 @@ st.write("")
 with st.spinner("Sincronizzazione canali finanziari stabili..."):
     data = fetch_financial_data(all_tickers)
 
-summary_rows = []
-portfolio_dataframes = {}
-
-for name, tickers in PURE_PORTFOLIOS.items():
